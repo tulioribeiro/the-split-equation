@@ -1,20 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { API_URL } from "./config/consts";
+import { Hello } from "./components/hello";
 
 function App() {
+  const [apiResult, setApiResult] = useState<string | null>(null);
+
   async function checkAPIHealth() {
-    const res = await fetch(`${API_URL}/health`);
+    try {
+      const res = await fetch(`${API_URL}/health`);
+      const data = await res.json();
 
-    const data = await res.json();
-
-    console.log(data);
+      setApiResult(data.status);
+    } catch (err) {
+      setApiResult("error");
+      console.error(err);
+    }
   }
 
   useEffect(() => {
     checkAPIHealth();
   }, []);
 
-  return <h1>Hello world!</h1>;
+  return (
+    <div>
+      <Hello />
+      <div data-testid="api-result">{apiResult}</div>
+    </div>
+  );
 }
 
 export default App;
