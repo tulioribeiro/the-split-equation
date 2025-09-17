@@ -1,6 +1,6 @@
-import "@testing-library/jest-dom/vitest";
-import { server } from "./mocks/node";
+import '@testing-library/jest-dom/vitest'
+import { server } from './mocks/node'
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())

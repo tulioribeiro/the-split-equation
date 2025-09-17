@@ -1,10 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import App from "./App";
+import { render, screen, waitFor } from '@testing-library/react'
+import App from './App'
 
-test("fetches data from API and displays result", async () => {
-  render(<App />);
+test('fetches data from API and displays result', async () => {
+  render(<App />)
 
-  const result = await waitFor(() => screen.getByTestId("api-result"));
+  const result = await waitFor(() => screen.getByTestId('api-result'))
 
-  expect(result).toHaveTextContent("ok");
-});
+  expect(result).toHaveTextContent('ok')
+})
