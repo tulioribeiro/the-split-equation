@@ -5,6 +5,8 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import importPlugin from 'eslint-plugin-import'
 
 export default tseslint.config([
   globalIgnores(['dist']),
@@ -16,10 +18,35 @@ export default tseslint.config([
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+      import: importPlugin,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parserOptions: {
+        project: './tsconfig.app.json',
+      },
+    },
+    rules: {
+      'import/no-unresolved': 'error',
+      'import/no-duplicates': 'error',
+      'import/order': 'off',
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+      },
+      react: {
+        version: 'detect',
+      },
     },
   },
-  prettierConfig
+
+  prettierConfig,
 ])
