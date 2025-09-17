@@ -1,7 +1,9 @@
+import '@/styles/index.css'
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+
 import App from '@/App'
-import '@/styles/index.css'
 import { APP_ENV } from '@/config/env'
 
 async function enableMocking() {

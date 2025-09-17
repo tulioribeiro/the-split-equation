@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw'
+
 import { API_URL } from '../../../config/consts'
 
 export const handlers = [
