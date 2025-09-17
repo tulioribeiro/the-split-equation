@@ -1,8 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App'
-import './index.css'
-import { APP_ENV } from './config/env'
+import App from '@/App'
+import '@/styles/index.css'
+import { APP_ENV } from '@/config/env'
 
 async function enableMocking() {
   const isMockingEnabled = APP_ENV.VITE_APP_ENABLE_API_MOCKING

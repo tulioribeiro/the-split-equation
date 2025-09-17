@@ -1,6 +1,6 @@
+import { Hello } from '@/components/hello'
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import { Hello } from './hello'
 
 describe('Hello component', () => {
   it('renders the correct text', () => {

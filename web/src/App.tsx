@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import { API_URL } from './config/consts'
-import { Hello } from './components/hello'
+
+import { Hello } from '@/components/hello'
+import { Button } from '@/components/ui/button'
+import { API_URL } from '@/config/consts'
 
 function App() {
   const [apiResult, setApiResult] = useState<string | null>(null)
@@ -25,6 +27,7 @@ function App() {
     <div>
       <Hello />
       <div data-testid="api-result">{apiResult}</div>
+      <Button>Dummy button</Button>
     </div>
   )
 }
