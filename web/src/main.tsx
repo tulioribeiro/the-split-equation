@@ -7,8 +7,11 @@ import { RouterProvider } from 'react-router'
 import { router } from '@/app/routers/main-router'
 import { enableMocking } from '@/tests/mocks'
 
+const root = document.getElementById('root')
+if (!root) throw new Error('No root element found')
+
 enableMocking().then(() => {
-  createRoot(document.getElementById('root')!).render(
+  createRoot(root).render(
     <StrictMode>
       <RouterProvider router={router} />
     </StrictMode>,
