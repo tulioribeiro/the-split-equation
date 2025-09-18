@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 const EnvSchema = z.object({
   VITE_APP_API_URL: z.url(),
-  VITE_APP_ENABLE_API_MOCKING: z
+  VITE_ENABLE_API_MOCKING: z
     .enum(['true', 'false'])
     .transform((s) => s === 'true'),
 })
