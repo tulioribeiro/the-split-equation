@@ -7,6 +7,7 @@ import { globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import importPlugin from 'eslint-plugin-import'
+import pluginQuery from '@tanstack/eslint-plugin-query'
 
 export default tseslint.config([
   globalIgnores(['dist']),
@@ -52,4 +53,5 @@ export default tseslint.config([
   },
 
   prettierConfig,
+  ...pluginQuery.configs['flat/recommended'],
 ])
