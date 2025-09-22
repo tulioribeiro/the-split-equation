@@ -1,5 +1,6 @@
 import { IS_DEV } from '@/config/consts'
 import { APP_ENV } from '@/config/env'
+import { generateSeeds } from '@/tests/mocks/seeds'
 
 export async function enableMocking() {
   if (typeof window === 'undefined') return
@@ -10,5 +11,9 @@ export async function enableMocking() {
 
   const { worker } = await import('./browser')
 
-  return await worker.start()
+  const instance = await worker.start()
+
+  generateSeeds()
+
+  return instance
 }

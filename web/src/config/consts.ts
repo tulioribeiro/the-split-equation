@@ -1,6 +1,9 @@
 import { APP_ENV } from './env'
 
-const API_URL = APP_ENV.VITE_APP_API_URL
+const IS_MOCKING_ENABLED =
+  APP_ENV.VITE_ENABLE_API_MOCKING && import.meta.env.DEV
+
+const API_URL = IS_MOCKING_ENABLED ? '' : APP_ENV.VITE_APP_API_URL
 
 const IS_DEV = import.meta.env.DEV
 const IS_PROD = import.meta.env.PROD
