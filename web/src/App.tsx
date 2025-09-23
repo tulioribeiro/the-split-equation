@@ -1,55 +1,53 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { Hello } from '@/components/hello'
 import { Button } from '@/components/ui/button'
-import { API_URL } from '@/config/consts'
-import { API_URLS } from '@/lib/api-urls'
+import { useLogin } from '@/services/auth/use-login'
+import { useLogout } from '@/services/auth/use-logout'
 
 function App() {
-  const [apiResult, setApiResult] = useState<string | null>(null)
+  const [user, setUser] = useState({ name: '', email: '' })
+  const loginMutation = useLogin()
+  const logoutMutatiton = useLogout()
 
-  async function checkAPIHealth() {
-    try {
-      const res = await fetch(`${API_URL}/health`)
-      const data = await res.json()
+  function handleLogin() {
+    loginMutation.mutate(
+      { email: 'user@example.com', password: 'hardpassword' },
+      {
+        onSuccess: (data) => {
+          setUser({
+            name: data.user.name,
+            email: data.user.email,
+          })
 
-      setApiResult(data.status)
-    } catch (err) {
-      setApiResult('error')
-      console.error(err)
-    }
-  }
-
-  async function login() {
-    try {
-      const res = await fetch(API_URLS.auth.login, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+          console.log('Login successful:', data)
         },
-        body: JSON.stringify({
-          email: 'admin@example.com',
-          password: 'hardpassword',
-        }),
-      })
-
-      const data = await res.json()
-      console.log('login response', { data })
-    } catch (err) {
-      console.error(err)
-    }
+        onError: (error) => {
+          console.error('Login failed:', error)
+        },
+      },
+    )
   }
 
-  useEffect(() => {
-    checkAPIHealth()
-    login()
-  }, [])
+  function handleLogout() {
+    logoutMutatiton.mutate(undefined, {
+      onSuccess: (data) => {
+        console.log('Logout successful:', data)
+
+        setUser({ name: '', email: '' })
+      },
+    })
+  }
 
   return (
     <div>
-      <Hello />
-      <div data-testid="api-result">{apiResult}</div>
-      <Button>Dummy button</Button>
+      hi {user.name || 'guest'} ({user.email || 'not logged in'})
+      <Button onClick={handleLogin}>Dummy button</Button>
+      {user.name && (
+        <>
+          <br />
+          <Button onClick={handleLogout}>Logout</Button>
+        </>
+      )}
     </div>
   )
 }

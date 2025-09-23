@@ -1,16 +1,26 @@
+import { faker } from '@faker-js/faker'
 import { http, HttpResponse } from 'msw'
 
-import { API_URLS } from '@/lib/api-urls'
+import { LoginRequestSchema, LoginResponseSchema } from '@/contracts/auth'
+import { API_URLS } from '@/lib/api/urls'
 import { db } from '@/tests/mocks/data'
 
 const authHandlers = [
   http.post(API_URLS.auth.login, async ({ request }) => {
-    // @FIXME: type this properly later
-    const body = (await request.json()) as { email: string; password: string }
+    const body = await request.json()
+    const parsed = LoginRequestSchema.safeParse(body)
+
+    if (!parsed.success) {
+      return HttpResponse.json(
+        { message: 'Invalid request', errors: parsed.error },
+        { status: 400 },
+      )
+    }
+
     const user = db.user.findFirst({
       where: {
-        email: { equals: body.email },
-        password: { equals: body.password },
+        email: { equals: parsed.data.email },
+        password: { equals: parsed.data.password },
       },
     })
 
@@ -21,12 +31,31 @@ const authHandlers = [
       )
     }
 
-    // @TODO: set a cookie or something
+    const validated = LoginResponseSchema.parse({
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+    })
 
-    return HttpResponse.json({
-      id: user.id,
-      email: user.email,
-      name: user.name,
+    const fakeSessionToken = faker.string.uuid()
+
+    return HttpResponse.json(validated, {
+      status: 200,
+      headers: {
+        'set-cookie': `session=${fakeSessionToken}; HttpOnly; Path=/; Max-Age=604800`,
+      },
+    })
+  }),
+
+  http.post(API_URLS.auth.logout, () => {
+    return HttpResponse.json(undefined, {
+      status: 200,
+      headers: {
+        'Set-Cookie': `session=; HttpOnly; Path=/; Max-Age=0`,
+      },
     })
   }),
 ]

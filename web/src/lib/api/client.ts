@@ -10,8 +10,10 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // @TODO: handle errors globally?
-    console.error(error)
+    if (axios.isAxiosError(error) && error.response) {
+      const msg = error.response.data?.message || 'Unknown error'
+      return Promise.reject(new Error(msg))
+    }
 
     return Promise.reject(error)
   },
