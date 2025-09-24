@@ -1,7 +1,7 @@
 import { act, waitFor } from '@testing-library/react'
 
-import { useLogin } from '@/services/auth/use-login'
-import { useAuthStore } from '@/store/auth'
+import { useLogin } from '@/features/auth/hooks/use-login'
+import { useAuthStore } from '@/features/auth/store'
 import { renderHookWithProviders } from '@/tests/mocks/utils/render-hook-with-providers'
 
 describe('useLogin hook', () => {

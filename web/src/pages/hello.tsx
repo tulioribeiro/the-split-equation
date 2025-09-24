@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/store/auth'
+import { useAuthStore } from '@/features/auth/store'
 
 function Hello() {
   const { user } = useAuthStore()

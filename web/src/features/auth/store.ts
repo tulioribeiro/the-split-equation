@@ -1,5 +1,5 @@
 import type { UserEntity } from '@/entities/user'
-import { createStore } from '@/store'
+import { createStore } from '@/lib/store'
 
 interface AuthStore {
   user: UserEntity | null

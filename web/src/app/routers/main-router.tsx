@@ -2,9 +2,9 @@ import { createBrowserRouter, Navigate } from 'react-router'
 
 import { ProtectedLayout } from '@/app/layouts/protected'
 import { PublicLayout } from '@/app/layouts/public'
+import { LoginPage } from '@/features/auth/pages/login'
 import { NotFoundPage } from '@/pages/404'
 import { Hello } from '@/pages/hello'
-import { LoginPage } from '@/services/auth/login'
 
 const router = createBrowserRouter([
   {

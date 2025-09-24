@@ -1,4 +1,4 @@
-import type { LoginRequest, LoginResponse } from '@/contracts/auth'
+import type { LoginRequest, LoginResponse } from '@/features/auth/contracts'
 import { apiClient } from '@/lib/api/client'
 import { API_URLS } from '@/lib/api/urls'
 

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useLogin } from '@/services/auth/use-login'
+import { useLogin } from '@/features/auth/hooks/use-login'
 
 function LoginPage() {
   const loginMutation = useLogin()

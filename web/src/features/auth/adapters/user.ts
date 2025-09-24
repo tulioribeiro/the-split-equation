@@ -1,5 +1,5 @@
-import type { LoginResponse } from '@/contracts/auth'
 import type { UserEntity } from '@/entities/user'
+import type { LoginResponse } from '@/features/auth/contracts'
 
 function toUserEntity(data: LoginResponse): UserEntity {
   const role: UserEntity['role'] = ['admin', 'user'].includes(data.user.role)

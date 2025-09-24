@@ -1,7 +1,7 @@
 import { act, waitFor } from '@testing-library/react'
 
-import { useLogout } from '@/services/auth/use-logout'
-import { useAuthStore } from '@/store/auth'
+import { useLogout } from '@/features/auth/hooks/use-logout'
+import { useAuthStore } from '@/features/auth/store'
 import { renderHookWithProviders } from '@/tests/mocks/utils/render-hook-with-providers'
 
 describe('useLogout hook', () => {

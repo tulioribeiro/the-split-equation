@@ -1,7 +1,10 @@
 import { faker } from '@faker-js/faker'
 import { http, HttpResponse } from 'msw'
 
-import { LoginRequestSchema, LoginResponseSchema } from '@/contracts/auth'
+import {
+  LoginRequestSchema,
+  LoginResponseSchema,
+} from '@/features/auth/contracts'
 import { API_URLS } from '@/lib/api/urls'
 import { db } from '@/tests/mocks/data'
 
