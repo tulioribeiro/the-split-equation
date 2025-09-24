@@ -1,12 +1,11 @@
-import { NavLink, Outlet } from 'react-router'
+import { Outlet } from 'react-router'
 
 export function PublicLayout() {
   return (
-    <div>
-      <h1>Public layout</h1>
-      <NavLink to="/">Home</NavLink> | <NavLink to="/login">Login</NavLink>
-      <hr />
-      <Outlet />
+    <div className="min-h-screen flex justify-center items-center">
+      <div className="w-full max-w-sm">
+        <Outlet />
+      </div>
     </div>
   )
 }

@@ -1,9 +1,10 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 
-import App from '@/App'
 import { ProtectedLayout } from '@/app/layouts/protected'
 import { PublicLayout } from '@/app/layouts/public'
 import { NotFoundPage } from '@/pages/404'
+import { Hello } from '@/pages/hello'
+import { LoginPage } from '@/services/auth/login'
 
 const router = createBrowserRouter([
   {
@@ -12,17 +13,21 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: App,
+        Component: Hello,
       },
     ],
   },
   {
-    path: '/login',
+    path: 'auth',
     element: <PublicLayout />,
     children: [
       {
         index: true,
-        Component: App,
+        element: <Navigate to="login" />,
+      },
+      {
+        path: 'login',
+        Component: LoginPage,
       },
     ],
   },
