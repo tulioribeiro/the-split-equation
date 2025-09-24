@@ -8,8 +8,8 @@ export function ProtectedLayout() {
 
   return (
     <div>
-      <header className="bg-black p-2 mb-10 text-white">
-        <div className="w-full m-auto max-w-6xl flex justify-between items-center">
+      <header className="mb-10 bg-black p-2 text-white">
+        <div className="m-auto flex w-full max-w-6xl items-center justify-between">
           <h1>The Split/Equation</h1>
           <Button variant="secondary" onClick={() => logoutMutation.mutate()}>
             Logout
@@ -17,7 +17,7 @@ export function ProtectedLayout() {
         </div>
       </header>
 
-      <div className="w-full m-auto max-w-6xl">
+      <div className="m-auto w-full max-w-6xl">
         <Outlet />
       </div>
     </div>
