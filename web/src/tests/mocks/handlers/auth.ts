@@ -40,12 +40,18 @@ const authHandlers = [
       },
     })
 
-    const fakeSessionToken = faker.string.uuid()
+    const fakeSessionAuth = faker.string.uuid()
+    const fakeSessionRefresh = faker.string.uuid()
+    const THIRTY_MINUTES_IN_SECONDS = 30 * 60
+    const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60
 
     return HttpResponse.json(validated, {
       status: 200,
       headers: {
-        'set-cookie': `session=${fakeSessionToken}; HttpOnly; Path=/; Max-Age=604800`,
+        'Set-Cookie': [
+          `access_token=${fakeSessionAuth}; HttpOnly; Path=/; Max-Age=${THIRTY_MINUTES_IN_SECONDS}`,
+          `refresh_token=${fakeSessionRefresh}; HttpOnly; Path=/; Max-Age=${SEVEN_DAYS_IN_SECONDS}`,
+        ].join(', '),
       },
     })
   }),
@@ -54,7 +60,10 @@ const authHandlers = [
     return HttpResponse.json(undefined, {
       status: 200,
       headers: {
-        'Set-Cookie': `session=; HttpOnly; Path=/; Max-Age=0`,
+        'Set-Cookie': [
+          `access_token=; HttpOnly; Path=/; Max-Age=0`,
+          `refresh_token=; HttpOnly; Path=/; Max-Age=0`,
+        ].join(', '),
       },
     })
   }),

@@ -1,24 +1,19 @@
-import { useState } from 'react'
-
 import { Button } from '@/components/ui/button'
 import { useLogin } from '@/services/auth/use-login'
 import { useLogout } from '@/services/auth/use-logout'
+import { useAuthStore } from '@/store/auth'
 
 function App() {
-  const [user, setUser] = useState({ name: '', email: '' })
   const loginMutation = useLogin()
   const logoutMutatiton = useLogout()
 
+  const { user, clearUser } = useAuthStore()
+
   function handleLogin() {
     loginMutation.mutate(
-      { email: 'user@example.com', password: 'hardpassword' },
+      { email: 'admin@example.com', password: 'hardpassword' },
       {
         onSuccess: (data) => {
-          setUser({
-            name: data.user.name,
-            email: data.user.email,
-          })
-
           console.log('Login successful:', data)
         },
         onError: (error) => {
@@ -33,16 +28,16 @@ function App() {
       onSuccess: (data) => {
         console.log('Logout successful:', data)
 
-        setUser({ name: '', email: '' })
+        clearUser()
       },
     })
   }
 
   return (
     <div>
-      hi {user.name || 'guest'} ({user.email || 'not logged in'})
+      hi {user?.name || 'guest'} ({user?.email || 'not logged in'})
       <Button onClick={handleLogin}>Dummy button</Button>
-      {user.name && (
+      {user?.name && (
         <>
           <br />
           <Button onClick={handleLogout}>Logout</Button>
