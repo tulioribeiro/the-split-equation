@@ -1,12 +1,12 @@
-import { faker } from '@faker-js/faker'
 import { http, HttpResponse } from 'msw'
 
 import {
   LoginRequestSchema,
-  LoginResponseSchema,
+  UserResponseSchema,
 } from '@/features/auth/contracts'
 import { API_URLS } from '@/lib/api/urls'
 import { db } from '@/tests/mocks/data'
+import { retrieveMswSession } from '@/tests/mocks/utils/retrieve-msw-session'
 
 const authHandlers = [
   http.post(API_URLS.auth.login, async ({ request }) => {
@@ -34,27 +34,14 @@ const authHandlers = [
       )
     }
 
-    const validated = LoginResponseSchema.parse({
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      },
-    })
+    const parsedUser = UserResponseSchema.parse(user)
 
-    const fakeSessionAuth = faker.string.uuid()
-    const fakeSessionRefresh = faker.string.uuid()
-    const THIRTY_MINUTES_IN_SECONDS = 30 * 60
-    const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60
-
-    return HttpResponse.json(validated, {
+    // using the user.id as access_token just for mocking purposes
+    // so i can retrieve it later at auth/me
+    return HttpResponse.json(parsedUser, {
       status: 200,
       headers: {
-        'Set-Cookie': [
-          `access_token=${fakeSessionAuth}; HttpOnly; Path=/; Max-Age=${THIRTY_MINUTES_IN_SECONDS}`,
-          `refresh_token=${fakeSessionRefresh}; HttpOnly; Path=/; Max-Age=${SEVEN_DAYS_IN_SECONDS}`,
-        ].join(', '),
+        'Set-Cookie': `access_token=${user.id}; HttpOnly; Path=/; Max-Age=3600`,
       },
     })
   }),
@@ -63,12 +50,54 @@ const authHandlers = [
     return HttpResponse.json(undefined, {
       status: 200,
       headers: {
-        'Set-Cookie': [
-          `access_token=; HttpOnly; Path=/; Max-Age=0`,
-          `refresh_token=; HttpOnly; Path=/; Max-Age=0`,
-        ].join(', '),
+        'Set-Cookie': 'access_token=; HttpOnly; Path=/; Max-Age=0',
       },
     })
+  }),
+
+  http.get(API_URLS.auth.me, () => {
+    const userSession = retrieveMswSession(
+      window.localStorage.getItem('__msw-cookie-store__') || '',
+    )
+
+    // no previous session
+    if (!userSession) {
+      return HttpResponse.json({}, { status: 401 })
+    }
+
+    const { createdAt, maxAge, sessionId } = userSession
+
+    const maxAgeInMs = 1000 * maxAge
+    const expiresAt = new Date(createdAt).getTime() + maxAgeInMs
+
+    if (expiresAt < Date.now()) {
+      return HttpResponse.json(
+        {
+          message: 'Session expired',
+        },
+        { status: 401 },
+      )
+    }
+
+    const user = db.user.findFirst({
+      where: {
+        id: {
+          equals: sessionId,
+        },
+      },
+    })
+
+    if (!user) {
+      return HttpResponse.json({}, { status: 404 })
+    }
+
+    const parsedUser = UserResponseSchema.parse({ user })
+
+    if (!parsedUser) {
+      return HttpResponse.json({}, { status: 404 })
+    }
+
+    return HttpResponse.json(parsedUser, { status: 200 })
   }),
 ]
 

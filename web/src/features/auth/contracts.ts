@@ -1,21 +1,23 @@
 import z from 'zod'
 
+const UserSchema = z.object({
+  id: z.string(),
+  email: z.email(),
+  name: z.string(),
+  role: z.string(),
+})
+
 const LoginRequestSchema = z.object({
   email: z.email(),
   password: z.string().min(8),
 })
 
-const LoginResponseSchema = z.object({
-  user: z.object({
-    id: z.uuid(),
-    email: z.email(),
-    name: z.string(),
-    role: z.string(),
-  }),
+const UserResponseSchema = z.object({
+  user: UserSchema,
 })
 
 type LoginRequest = z.infer<typeof LoginRequestSchema>
-type LoginResponse = z.infer<typeof LoginResponseSchema>
+type UserResponse = z.infer<typeof UserResponseSchema>
 
-export { LoginRequestSchema, LoginResponseSchema }
-export type { LoginRequest, LoginResponse }
+export { LoginRequestSchema, UserResponseSchema }
+export type { LoginRequest, UserResponse }

@@ -4,7 +4,7 @@ import { db } from '@/tests/mocks/data'
 
 function seedUsers({ total = 0 }: { total?: number }) {
   db.user.create({
-    id: faker.string.uuid(),
+    id: 'fake-admin-id',
     name: 'Admin User',
     password: 'hardpassword',
     email: 'admin@example.com',
@@ -13,7 +13,7 @@ function seedUsers({ total = 0 }: { total?: number }) {
   })
 
   db.user.create({
-    id: faker.string.uuid(),
+    id: 'fake-user-id',
     name: 'Regular User',
     password: 'hardpassword',
     email: 'user@example.com',

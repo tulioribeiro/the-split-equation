@@ -1,9 +1,12 @@
 import { Outlet } from 'react-router'
 
 import { Button } from '@/components/ui/button'
+import { useAuthGuard } from '@/features/auth/hooks/use-auth-guard'
 import { useLogout } from '@/features/auth/hooks/use-logout'
 
 export function ProtectedLayout() {
+  useAuthGuard()
+
   const logoutMutation = useLogout()
 
   return (
