@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { renderHook, type RenderHookOptions } from '@testing-library/react'
 import type { ReactNode } from 'react'
+import { MemoryRouter } from 'react-router'
 
 const createTestQueryClient = () => {
   return new QueryClient({
@@ -19,7 +20,9 @@ function renderHookWithProviders<TProps, TResult>(
   const queryClient = createTestQueryClient()
 
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{children}</MemoryRouter>
+    </QueryClientProvider>
   )
 
   return renderHook(hook, { ...options, wrapper })

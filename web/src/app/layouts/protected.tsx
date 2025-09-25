@@ -5,9 +5,13 @@ import { useAuthGuard } from '@/features/auth/hooks/use-auth-guard'
 import { useLogout } from '@/features/auth/hooks/use-logout'
 
 export function ProtectedLayout() {
-  useAuthGuard()
+  const { isPending } = useAuthGuard()
 
   const logoutMutation = useLogout()
+
+  if (isPending) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div>

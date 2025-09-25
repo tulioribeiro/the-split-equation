@@ -34,11 +34,11 @@ const authHandlers = [
       )
     }
 
-    const parsedUser = UserResponseSchema.parse(user)
+    const parsedData = UserResponseSchema.parse({ user })
 
     // using the user.id as access_token just for mocking purposes
     // so i can retrieve it later at auth/me
-    return HttpResponse.json(parsedUser, {
+    return HttpResponse.json(parsedData, {
       status: 200,
       headers: {
         'Set-Cookie': `access_token=${user.id}; HttpOnly; Path=/; Max-Age=3600`,
@@ -91,13 +91,13 @@ const authHandlers = [
       return HttpResponse.json({}, { status: 404 })
     }
 
-    const parsedUser = UserResponseSchema.parse({ user })
+    const parsedData = UserResponseSchema.parse({ user })
 
-    if (!parsedUser) {
+    if (!parsedData) {
       return HttpResponse.json({}, { status: 404 })
     }
 
-    return HttpResponse.json(parsedUser, { status: 200 })
+    return HttpResponse.json(parsedData, { status: 200 })
   }),
 ]
 

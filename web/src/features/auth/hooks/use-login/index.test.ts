@@ -21,6 +21,8 @@ describe('useLogin hook', () => {
 
     await waitFor(() => result.current.isSuccess)
 
+    console.log(result.current)
+
     expect(result.current.data).toMatchObject({
       user: {
         name: 'Admin User',
