@@ -7,16 +7,14 @@ const apiClient = axios.create({
   withCredentials: true,
 })
 
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (axios.isAxiosError(error) && error.response) {
-      const msg = error.response.data?.message || 'Unknown error'
-      return Promise.reject(new Error(msg))
-    }
+export function transformError(error: unknown) {
+  if (axios.isAxiosError(error) && error.response?.data?.message) {
+    return Promise.reject(new Error(error.response.data.message))
+  }
 
-    return Promise.reject(error)
-  },
-)
+  return Promise.reject(error)
+}
+
+apiClient.interceptors.response.use((response) => response, transformError)
 
 export { apiClient }

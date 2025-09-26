@@ -13,6 +13,14 @@ type SessionDetails = {
 }
 
 function retrieveMswSession(jsonString: string): SessionDetails | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  if (!jsonString || jsonString.trim() === '') {
+    return null
+  }
+
   try {
     const data: CookieEntry[] = JSON.parse(jsonString)
 
