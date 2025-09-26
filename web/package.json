@@ -12,7 +12,8 @@
     "format:check": "prettier --check 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage && open-cli coverage/index.html"
   },
   "dependencies": {
