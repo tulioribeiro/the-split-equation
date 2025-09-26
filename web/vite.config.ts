@@ -21,7 +21,9 @@ export default defineConfig({
     setupFiles: './src/tests/setup.ts',
     exclude: ['**/node_modules/**', '**/e2e/**'],
     coverage: {
+      reporter: ['text', 'json', 'html', 'lcov'],
       include: ['src/**'],
+      exclude: ['src/tests/**'],
     },
   },
 })
