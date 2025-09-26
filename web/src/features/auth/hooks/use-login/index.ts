@@ -15,7 +15,7 @@ function useLogin() {
     onSuccess: (data) => {
       setUser(toUserEntity(data))
 
-      return navigate('/')
+      navigate('/')
     },
   })
 }

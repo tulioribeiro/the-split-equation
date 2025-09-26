@@ -8,7 +8,7 @@ import type { UserResponse } from '@/features/auth/contracts'
 import { useAuthStore } from '@/features/auth/store'
 
 function useAuthGuard() {
-  const { clearUser, setUser } = useAuthStore()
+  const { clearUser, setUser, user } = useAuthStore()
   const navigate = useNavigate()
 
   const { isPending, isError, data } = useQuery<UserResponse, Error>({
@@ -41,7 +41,7 @@ function useAuthGuard() {
   return {
     isPending,
     isError,
-    data,
+    user,
   }
 }
 
