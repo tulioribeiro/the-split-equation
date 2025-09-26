@@ -10,7 +10,7 @@ import importPlugin from 'eslint-plugin-import'
 import pluginQuery from '@tanstack/eslint-plugin-query'
 
 export default tseslint.config([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'coverage']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
