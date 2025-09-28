@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router'
 
-import { Button } from '@/components/ui/button'
 import { useAuthGuard } from '@/features/auth/hooks/use-auth-guard'
 import { useLogout } from '@/features/auth/hooks/use-logout'
+import { Button } from '@/shared/components/ui/button'
 
 export function ProtectedLayout() {
   const { isPending } = useAuthGuard()
