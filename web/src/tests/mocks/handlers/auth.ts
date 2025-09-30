@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw'
 import {
   ForgotPasswordRequestSchema,
   LoginRequestSchema,
+  RegisterRequestSchema,
   UserResponseSchema,
 } from '@/features/auth/contracts'
 import { API_URLS } from '@/lib/api/urls'
@@ -99,6 +100,44 @@ const authHandlers = [
     }
 
     return HttpResponse.json(parsedData, { status: 200 })
+  }),
+
+  http.post(API_URLS.auth.register, async ({ request }) => {
+    const body = await request.json()
+    const requestParsed = RegisterRequestSchema.safeParse(body)
+
+    if (!requestParsed.success) {
+      return HttpResponse.json(
+        { message: 'Invalid request', errors: requestParsed.error },
+        { status: 400 },
+      )
+    }
+
+    const user = db.user.findFirst({
+      where: {
+        email: { equals: requestParsed.data.email },
+      },
+    })
+
+    if (user) {
+      return HttpResponse.json(
+        { message: 'Credentials already in use' },
+        { status: 401 },
+      )
+    }
+
+    const parsedData = RegisterRequestSchema.safeParse({
+      name: requestParsed.data.name,
+      email: requestParsed.data.email,
+      password: requestParsed.data.password,
+    })
+
+    return HttpResponse.json(
+      { user: parsedData.data },
+      {
+        status: 200,
+      },
+    )
   }),
 
   http.post(API_URLS.auth.forgotPassword, async ({ request }) => {

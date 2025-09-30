@@ -1,6 +1,7 @@
 import {
   type ForgotPasswordRequest,
   type LoginRequest,
+  type RegisterRequest,
   type UserResponse,
 } from '@/features/auth/contracts'
 import { apiClient } from '@/lib/api/client'
@@ -8,6 +9,15 @@ import { API_URLS } from '@/lib/api/urls'
 
 async function login(data: LoginRequest) {
   const response = await apiClient.post<UserResponse>(API_URLS.auth.login, data)
+
+  return response.data
+}
+
+async function register(data: RegisterRequest) {
+  const response = await apiClient.post<UserResponse>(
+    API_URLS.auth.register,
+    data,
+  )
 
   return response.data
 }
@@ -24,4 +34,4 @@ async function getCurrentUser() {
   return await apiClient.get<UserResponse>(API_URLS.auth.me)
 }
 
-export { forgotPassword, getCurrentUser, login, logout }
+export { forgotPassword, getCurrentUser, login, logout, register }

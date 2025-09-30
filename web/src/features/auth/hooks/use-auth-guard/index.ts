@@ -11,6 +11,8 @@ function useAuthGuard() {
   const { clearUser, setUser, user } = useAuthStore()
   const navigate = useNavigate()
 
+  // @FIXME: this will make a request on every page, even if the user is already logged in
+  // should only do this on initial app load
   const { isPending, isError, data } = useQuery<UserResponse, Error>({
     queryKey: ['auth', 'me'],
     queryFn: async () => {
