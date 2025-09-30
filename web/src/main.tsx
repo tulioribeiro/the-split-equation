@@ -6,9 +6,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router'
 
-import { router } from '@/app/routers/main-router'
 import { IS_DEV } from '@/config/consts'
 import { queryClient } from '@/lib/react-query'
+import { router } from '@/router/routers/main-router'
 import { ThemeProvider } from '@/shared/components/theme-provider'
 import { enableMocking } from '@/tests/mocks'
 
