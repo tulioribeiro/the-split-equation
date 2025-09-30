@@ -9,6 +9,7 @@ import { RouterProvider } from 'react-router'
 import { router } from '@/app/routers/main-router'
 import { IS_DEV } from '@/config/consts'
 import { queryClient } from '@/lib/react-query'
+import { ThemeProvider } from '@/shared/components/theme-provider'
 import { enableMocking } from '@/tests/mocks'
 
 const root = document.getElementById('root')
@@ -17,11 +18,13 @@ if (!root) throw new Error('No root element found')
 enableMocking().then(() => {
   createRoot(root).render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
 
-        {IS_DEV && <ReactQueryDevtools initialIsOpen={false} />}
-      </QueryClientProvider>
+          {IS_DEV && <ReactQueryDevtools initialIsOpen={false} />}
+        </QueryClientProvider>
+      </ThemeProvider>
     </StrictMode>,
   )
 })

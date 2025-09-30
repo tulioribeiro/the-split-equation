@@ -14,20 +14,18 @@ export function ProtectedLayout() {
   }
 
   return (
-    <div className="dark">
-      <div className="dark:bg-background min-h-screen dark:text-white">
-        <header className="mb-10">
-          <div className="m-auto flex w-full max-w-6xl items-center justify-between">
-            <h1>The Split/Equation</h1>
-            <Button variant="secondary" onClick={() => logoutMutation.mutate()}>
-              Logout
-            </Button>
-          </div>
-        </header>
-
-        <div className="m-auto w-full max-w-6xl">
-          <Outlet />
+    <div>
+      <header className="mb-10">
+        <div className="m-auto flex w-full max-w-6xl items-center justify-between">
+          <h1>The Split/Equation</h1>
+          <Button variant="secondary" onClick={() => logoutMutation.mutate()}>
+            Logout
+          </Button>
         </div>
+      </header>
+
+      <div className="m-auto w-full max-w-6xl">
+        <Outlet />
       </div>
     </div>
   )
