@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 import {
+  ForgotPasswordRequestSchema,
   LoginRequestSchema,
   UserResponseSchema,
 } from '@/features/auth/contracts'
@@ -98,6 +99,20 @@ const authHandlers = [
     }
 
     return HttpResponse.json(parsedData, { status: 200 })
+  }),
+
+  http.post(API_URLS.auth.forgotPassword, async ({ request }) => {
+    const body = await request.json()
+    const parsed = ForgotPasswordRequestSchema.safeParse(body)
+
+    if (!parsed.success) {
+      return HttpResponse.json(
+        { message: 'Invalid request', errors: parsed.error },
+        { status: 400 },
+      )
+    }
+
+    return HttpResponse.json({ status: 200 })
   }),
 ]
 

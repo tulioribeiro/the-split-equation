@@ -1,4 +1,8 @@
-import { type LoginRequest, type UserResponse } from '@/features/auth/contracts'
+import {
+  type ForgotPasswordRequest,
+  type LoginRequest,
+  type UserResponse,
+} from '@/features/auth/contracts'
 import { apiClient } from '@/lib/api/client'
 import { API_URLS } from '@/lib/api/urls'
 
@@ -12,8 +16,12 @@ async function logout() {
   return await apiClient.post(API_URLS.auth.logout)
 }
 
+async function forgotPassword(data: ForgotPasswordRequest) {
+  return await apiClient.post(API_URLS.auth.forgotPassword, data)
+}
+
 async function getCurrentUser() {
   return await apiClient.get<UserResponse>(API_URLS.auth.me)
 }
 
-export { getCurrentUser, login, logout }
+export { forgotPassword, getCurrentUser, login, logout }

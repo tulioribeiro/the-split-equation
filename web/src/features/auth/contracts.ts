@@ -16,8 +16,13 @@ const UserResponseSchema = z.object({
   user: UserSchema,
 })
 
+const ForgotPasswordRequestSchema = z.object({
+  email: z.email(),
+})
+
 type LoginRequest = z.infer<typeof LoginRequestSchema>
 type UserResponse = z.infer<typeof UserResponseSchema>
+type ForgotPasswordRequest = z.infer<typeof ForgotPasswordRequestSchema>
 
-export { LoginRequestSchema, UserResponseSchema }
-export type { LoginRequest, UserResponse }
+export { ForgotPasswordRequestSchema, LoginRequestSchema, UserResponseSchema }
+export type { ForgotPasswordRequest, LoginRequest, UserResponse }
